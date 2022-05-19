@@ -11,9 +11,9 @@ package assessmnet2;
  */
 public class Main {
     public static void main(String[] args) {
-  //      View view = new View();
+        View view = new View();
         Model model = new Model();
-  //      Controller control = new Controller(view,model);
+       Controller control = new Controller(view,model);
     }
     
 }

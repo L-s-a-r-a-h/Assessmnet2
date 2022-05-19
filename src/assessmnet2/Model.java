@@ -11,13 +11,16 @@ package assessmnet2;
  */
 public class Model {
     
-    public DBManager dbManager;
+  //  public DBManager dbManager;
     public EventData Edata;
     public CustomerData Cdata;
+    public Database db;
     
     
     public Model(){
-        this.dbManager = new DBManager();
+       // this.dbManager = new DBManager();
+       this.db= new Database();
+ 
        
     }
 }

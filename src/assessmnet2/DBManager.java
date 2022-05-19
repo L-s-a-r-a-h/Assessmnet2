@@ -21,17 +21,17 @@ public class DBManager {
   
     private static final String USER_NAME = "pdc"; 
     private static final String PASSWORD = "pdc"; 
-    private static final String URL = "jdbc:derby://localhost:1527/BookingDB [pdc on PDC];create=true";  
+    private static final String URL = "jdbc:derby://localhost:1527/BookSysDB;create=true";  
     
-    public DBManager(){
+  /*  public DBManager(){
         dbSetup();
-    }
+    }*/
        public void dbSetup() {
            if(this.conn==null)
            {
                 try {
             conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-                    System.out.println("connected to "+ URL);
+ System.out.println("connected to "+ URL);
             
           /*  Statement statement = conn.createStatement();
             String tableName = "EventInfo";
@@ -41,7 +41,7 @@ public class DBManager {
 
             }*/
         } catch (SQLException ex) {
-           // System.out.println("db setup error");
+
                     System.out.println(ex.getMessage());
         }
            }

@@ -20,10 +20,35 @@ public class Database {
     private final DBManager manager;
     private final Connection conn;
     private Statement statement;
+    
+        public EventData Edata;
+    public CustomerData Cdata;
 
     Database() {
         manager = new DBManager();
+        manager.dbSetup();
         conn = manager.getConnection();
+        initDB();
+        
+       // initDB();
+    }
+
+    public void initDB() {
+        try {
+            this.statement = conn.createStatement();
+            this.checkTableExisting("BOOK");
+            this.statement.executeUpdate("CREATE  TABLE EVENTS  (eventID  INT,   eventName   VARCHAR(50),   evetnDate   VARCHAR(20),   PRICE   FLOAT)");
+            System.out.println("table created");
+            this.statement.executeUpdate("INSERT INTO EVENTS VALUES (1, 'Slum Dog Millionaire', '11/12/2022', 19.90),\n"
+                    + "(2, 'Run Mummy Run', '30/06/2022', 28.00),\n"
+                    + "(3, 'The Land of Painted Caves', '30/06/2022', 15.40),\n"
+                    + "(4, 'Cook with Jamie', '13/09/2022', 55.20),\n"
+                    + "(5, 'Far Eastern Odyssey', '20/07/2022', 24.90)");
+             
+            
+        } catch (SQLException ex) {
+            System.out.println("db create initial table error");
+        }
     }
 
     public ResultSet queryDB(String sql) {
