@@ -6,8 +6,11 @@
 package assessmnet2;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,8 +23,10 @@ public class View extends javax.swing.JFrame implements Observer {
      */
     public View() {
         initComponents();
+        setEventTable("hihi",1,1);
     
-    this.setVisible(true);
+
+        this.setVisible(true);
     }
 
     /**
@@ -41,12 +46,12 @@ public class View extends javax.swing.JFrame implements Observer {
         eventsBox = new javax.swing.JComboBox<>();
         customerTypeBox = new javax.swing.JComboBox<>();
         customerTypeLabel = new javax.swing.JLabel();
-        addBookingButton = new javax.swing.JButton();
         seatNoLanel = new javax.swing.JLabel();
         seatNumberBox = new javax.swing.JComboBox<>();
+        addBookingButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        AvailableSeats = new javax.swing.JLabel();
         addEventPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        eventsListList = new javax.swing.JList<>();
         eventNameLabel = new javax.swing.JLabel();
         eventNameField = new javax.swing.JTextField();
         dateField = new javax.swing.JTextField();
@@ -55,6 +60,9 @@ public class View extends javax.swing.JFrame implements Observer {
         createEventButton = new javax.swing.JButton();
         newEventLabel = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        eventListTable = new javax.swing.JTable();
+        message = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,17 +75,24 @@ public class View extends javax.swing.JFrame implements Observer {
 
         eventSelectLabel.setText("Select Event:");
 
-        eventsBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        customerTypeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        customerTypeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adult", "Student", "Child", "Senior" }));
 
         customerTypeLabel.setText("Type: ");
 
-        addBookingButton.setText("Add booking");
-
         seatNoLanel.setText("Seat number: ");
 
-        seatNumberBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        seatNumberBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+        seatNumberBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seatNumberBoxActionPerformed(evt);
+            }
+        });
+
+        addBookingButton.setText("Add Booking");
+
+        jLabel1.setText("Available Seats: ");
+
+        AvailableSeats.setText("None");
 
         javax.swing.GroupLayout addBookingPanelLayout = new javax.swing.GroupLayout(addBookingPanel);
         addBookingPanel.setLayout(addBookingPanelLayout);
@@ -86,21 +101,29 @@ public class View extends javax.swing.JFrame implements Observer {
             .addGroup(addBookingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(customerNameLabel)
-                    .addComponent(eventSelectLabel)
-                    .addComponent(customerTypeLabel)
-                    .addComponent(seatNoLanel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(customerTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eventsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(customerNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addBookingPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addBookingButton)
-                .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addBookingPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addBookingButton))
+                    .addGroup(addBookingPanelLayout.createSequentialGroup()
+                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addBookingPanelLayout.createSequentialGroup()
+                                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(customerNameLabel)
+                                    .addComponent(eventSelectLabel)
+                                    .addComponent(customerTypeLabel)
+                                    .addComponent(seatNoLanel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(customerTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(eventsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(customerNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(addBookingPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AvailableSeats, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 14, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         addBookingPanelLayout.setVerticalGroup(
             addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,17 +144,14 @@ public class View extends javax.swing.JFrame implements Observer {
                 .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(seatNoLanel)
                     .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(AvailableSeats))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addBookingButton)
-                .addGap(85, 85, 85))
+                .addGap(22, 22, 22))
         );
-
-        eventsListList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(eventsListList);
 
         eventNameLabel.setText("Event name:");
 
@@ -149,42 +169,57 @@ public class View extends javax.swing.JFrame implements Observer {
 
         priceLabel.setText("Seat price:");
 
+        eventListTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "EventID", "Event Name", "Date", "Price"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(eventListTable);
+
         javax.swing.GroupLayout addEventPanelLayout = new javax.swing.GroupLayout(addEventPanel);
         addEventPanel.setLayout(addEventPanelLayout);
         addEventPanelLayout.setHorizontalGroup(
             addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addEventPanelLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(33, 33, 33)
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addEventPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(addEventPanelLayout.createSequentialGroup()
-                                .addComponent(eventNameLabel)
-                                .addGap(35, 35, 35)
-                                .addComponent(eventNameField))
-                            .addGroup(addEventPanelLayout.createSequentialGroup()
-                                .addComponent(dateLabel)
-                                .addGap(39, 39, 39)
-                                .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(priceLabel)
-                                .addGap(18, 18, 18)
-                                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(createEventButton)
-                                    .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(21, Short.MAX_VALUE))
-                    .addGroup(addEventPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(addEventPanelLayout.createSequentialGroup()
+                            .addComponent(eventNameLabel)
+                            .addGap(35, 35, 35)
+                            .addComponent(eventNameField))
+                        .addGroup(addEventPanelLayout.createSequentialGroup()
+                            .addComponent(dateLabel)
+                            .addGap(39, 39, 39)
+                            .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(priceLabel)
+                            .addGap(18, 18, 18)
+                            .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(createEventButton)
+                                .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         addEventPanelLayout.setVerticalGroup(
             addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addEventPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -196,49 +231,59 @@ public class View extends javax.swing.JFrame implements Observer {
                     .addComponent(dateLabel)
                     .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(priceLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(createEventButton)
                 .addContainerGap())
         );
+
+        message.setForeground(new java.awt.Color(255, 0, 0));
+        message.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(26, 26, 26)
                 .addComponent(addEventPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addBookingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addComponent(BSLabel)
+                .addGap(187, 187, 187)
+                .addComponent(message)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(118, 118, 118)
-                .addComponent(addBookingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(BSLabel)
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BSLabel)
+                    .addComponent(message))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addEventPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(addBookingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void seatNumberBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatNumberBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seatNumberBoxActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AvailableSeats;
     private javax.swing.JLabel BSLabel;
     private javax.swing.JButton addBookingButton;
     private javax.swing.JPanel addBookingPanel;
@@ -250,12 +295,14 @@ public class View extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel customerTypeLabel;
     private javax.swing.JTextField dateField;
     private javax.swing.JLabel dateLabel;
+    private javax.swing.JTable eventListTable;
     private javax.swing.JTextField eventNameField;
     private javax.swing.JLabel eventNameLabel;
     private javax.swing.JLabel eventSelectLabel;
     private javax.swing.JComboBox<String> eventsBox;
-    private javax.swing.JList<String> eventsListList;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel message;
     private javax.swing.JLabel newEventLabel;
     private javax.swing.JTextField priceField;
     private javax.swing.JLabel priceLabel;
@@ -263,33 +310,69 @@ public class View extends javax.swing.JFrame implements Observer {
     private javax.swing.JComboBox<String> seatNumberBox;
     // End of variables declaration//GEN-END:variables
 
-    public String getEventName()
+    public void setEventTable(String str, int col, int row)
     {
+//this.eventListTable.setValueAt(str, col, row);
+  
+    }
+    public void setEventBox(String eventName){
+    this.eventsBox.addItem(eventName);
+    }
+    
+    public String getSelectedEvent(){
+        return this.eventsBox.getSelectedItem().toString();
+    }
+    
+    public int getSeatNo(){
+        int seatNo = Integer.parseInt(this.seatNumberBox.getSelectedItem().toString());
+        return seatNo;
+    }
+    public String getEventName() {
         return this.eventNameField.getText();
     }
-    
-       public String getEventDate()
-    {
+
+    public String getEventDate() {
         return this.dateField.getText();
     }
-       public String getEventPrice()
-    {
+
+    public String getEventPrice() {
         return this.priceField.getText();
     }
-          public String getCustomerName()
-    {
+
+    public String getCustomerName() {
         return this.customerNameField.getText();
     }
-     public void addActionListener(ActionListener Listener) {
- //       this.deleteBookingButton.addActionListener(Listener);
-        this.createEventButton.addActionListener(Listener);
- //       this.deleteEventButton.addActionListener(Listener);
-        this.addBookingButton.addActionListener(Listener);
-        
+   /*public void setAvailableSeats(ArrayList<Integer> availableSeats){
+        this.AvailableSeats.setText(availableSeats.toString());
+    } */
+
+    public String getCustomerType(){
+        return this.customerTypeBox.getSelectedItem().toString();
     }
-    
+    public void setEventList(ArrayList<EventData> eventList) {
+        EventData thisEvent=null;
+      for( int i =0; i <= eventList.size();i++)
+      {
+          thisEvent = eventList.get(i);
+          
+      }
+    }
+    public void setMessage(String message)
+    {
+        this.message.setText(message);
+    }
+
+    public void addActionListener(ActionListener Listener) {
+        //       this.deleteBookingButton.addActionListener(Listener);
+        this.createEventButton.addActionListener(Listener);
+        this.eventsBox.addActionListener(Listener);
+        //       this.deleteEventButton.addActionListener(Listener);
+        this.addBookingButton.addActionListener(Listener);
+
+    }
+
     @Override
     public void update(Observable arg0, Object arg1) {
-            addEventPanel.repaint();
+        addEventPanel.repaint();
     }
 }

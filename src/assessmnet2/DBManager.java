@@ -21,7 +21,7 @@ public class DBManager {
   
     private static final String USER_NAME = "pdc"; 
     private static final String PASSWORD = "pdc"; 
-    private static final String URL = "jdbc:derby://localhost:1527/BookSysDB;create=true";  
+    private static final String URL = "jdbc:derby://localhost:1527/BookSys [pdc on PDC];create=true";  
     
   /*  public DBManager(){
         dbSetup();
