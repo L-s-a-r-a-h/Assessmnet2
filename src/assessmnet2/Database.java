@@ -37,7 +37,7 @@ public class Database {
 
         // initDB();
     }
-    
+
 // get the arraylist of events
     public ArrayList getEventList() {
         return this.EdataList;
@@ -47,21 +47,39 @@ public class Database {
         try {
             this.statement = conn.createStatement();
             this.statement.executeUpdate("DROP TABLE EVENTS");
-            if (!this.checkTableExisting("EVENTS")) {
-                this.statement.executeUpdate("CREATE  TABLE EVENTS  (eventID  INT,   eventName   VARCHAR(50),   eventDate   VARCHAR(20),   PRICE   DOUBLE)");
-                System.out.println("table created");
-                this.statement.executeUpdate("INSERT INTO EVENTS VALUES (1, 'Slum_Dog_Millionaire', '11/12/2022', 19.90),\n"
-                        + "(2, 'Run_Mummy_Run', '30/06/2022', 28.00),\n"
-                        + "(3, 'The_Land_of_Painted_Caves', '30/06/2022', 15.40),\n"
-                        + "(4, 'Cook_with_Jamie', '13/09/2022', 55.20),\n"
-                        + "(5, 'Far_Eastern_Odyssey', '20/07/2022', 24.90)");
-            } else {
-                System.out.println("table exists");
-            }
+
+            this.statement.executeUpdate("CREATE  TABLE EVENTS  (  eventName   VARCHAR(50),   eventDate   VARCHAR(20),   PRICE   DOUBLE)");
+            System.out.println("table created");
+            this.statement.executeUpdate("INSERT INTO EVENTS VALUES ( 'Slum Dog Millionaire', '11/12/2022', 19.90),\n"
+                    + "( 'Run Mummy Run', '30/06/2022', 28.00),\n"
+                    + "('The Land of Painted Caves', '30/06/2022', 15.40),\n"
+                    + "( 'Cook with Jamie', '13/09/2022', 55.20),\n"
+                    + "('Far Eastern Odyssey', '20/07/2022', 24.90)");
 
         } catch (SQLException ex) {
             System.out.println("error  " + ex.getMessage());
         }
+    }
+
+    // put the events from the database into an arraylist
+    private void setEventDetails() {
+
+        try {
+            ResultSet rs = queryDB("SELECT * FROM EVENTS");
+            while (rs.next()) {
+                String name = rs.getString("eventName");
+                String date = rs.getString("eventDate");
+                double price = rs.getDouble("PRICE");
+                EventData eventData = new EventData(name, date, price);
+                this.EdataList.add(eventData);
+
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("set event error " + e.getMessage());
+        }
+
     }
 
     // query the database
@@ -80,94 +98,80 @@ public class Database {
         }
         return resultSet;
     }
-    
+
+    // add the new event to the database
+    public void addEvent(EventData newEvent) {
+        try {
+            this.statement.executeUpdate("INSERT INTO EVENTS VALUES ( '" + newEvent.name + "', '" + newEvent.date + "', " + newEvent.price + ")");
+            createTable(newEvent);
+            this.EdataList.add(newEvent);
+        } catch (SQLException ex) {
+            System.out.println("add event error " + ex.getMessage());
+        }
+    }
 // create a new table for an events seat bookings
-    public void createEventBookingsTable(String tableName) {
-        if (checkTableExisting(tableName) == false) {
+
+    private void createTable(EventData newEvent) {
+        String name = newEvent.name.trim();
+        try {
+            this.statement.executeUpdate("CREATE TABLE " + name + " (cName VARCHAR(20), seatNo INT, cType VARCHAR(20))");
+            System.out.println(name + "  Table created");
+        } catch (SQLException ex) {
+            System.out.println("createEventBookingsTable error " + ex.getMessage());
+        }
+    }
+
+    /*  public void createEventBookingsTable(String tableName) {
+        if (!checkTableExisting(tableName) ) {
             try {
                 this.statement.executeUpdate("CREATE TABLE " + tableName + " (cName VARCHAR(20), seatNo INT, cType VARCHAR(20))");
+                System.out.println(tableName+"  Table created");
             } catch (SQLException ex) {
-                System.out.println("error");
+                System.out.println("createEventBookingsTable error "+ ex.getMessage());
             }
-        }
-
-    }
-// check the database to see if a table for the bookings for an event exists
-    private boolean checkTableExisting(String tableName) {
-        boolean flag = false; //table does not exist
-        String name = tableName.replace(" ", "_");
-        try {
-            System.out.println(tableName);
-            System.out.println("checking tables...");
-            DatabaseMetaData dm = conn.getMetaData();
-            ResultSet rs = dm.getTables(null, null, tableName, null);
-            if (rs.next()) {
-                flag = true;
-
-            } else {
-                flag = false;
-            }
-        } catch (SQLException ex) {
-            System.out.println("table error");
-        }
-        return flag;
+        }else
+        {
+            System.out.println(tableName+"  table found ");
     }
 
-    // put the events from the database into an arraylist
-    private void setEventDetails() {
-
-        try {
-            ResultSet rs = queryDB("SELECT * FROM EVENTS");
-            while (rs.next()) {
-                String name = rs.getString("eventName");
-                String date = rs.getString("eventDate");
-                double price = rs.getDouble("PRICE");
-                EventData eventData = new EventData(name, date, price);
-                this.EdataList.add(eventData);
-
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
     }
-
-    public boolean checkEvent(String eventName) { //check to see if the event exists
+     */
+    // create a new booking table when a new event is created
+//check to see if the event exists
+    public boolean checkEvent(String eventName) {
         boolean exists = false;
-        String name = eventName.replace(" ", "_");
-         ResultSet rs =   queryDB("SELECT * FROM EVENTS WHERE eventName = '"+name+"'");
+
+        ResultSet rs = queryDB("SELECT * FROM EVENTS WHERE eventName = '" + eventName + "'");
         try {
-            if (rs.next())
-            {
-                System.out.println("table exists");
+            if (rs.next()) {
+                System.out.println("event exists");
                 exists = true;
-            }else{
-                System.out.println(" does not exist");
-             exists = false;
+            } else {
+                System.out.println("event does not exist");
+                exists = false;
             }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());  
+            System.out.println("checkEvent error : " + ex.getMessage());
         }
-        
 
         return exists;
 
     }
 
-   /* private void showEventList() {
-        for (EventData i : EdataList) {
-            System.out.println(i.name.replace("_", " ") + " " + i.date + " " + i.price);
-        }
-    } */
-
-    public void addBooking(String EventName, String customerName, String cType,int seatNo) {
-        String tableName = EventName.replace(" ", "_");
+// add customer booking to selected event
+    public void addBooking(String EventName, String customerName, String cType, int seatNo) {
         try {
-            this.statement.executeUpdate("INSERT INTO "+tableName+" VALUES ('" +customerName+"',"+seatNo+" '"+cType+"')");
+            this.statement.executeUpdate("INSERT INTO " + EventName + " VALUES ('" + customerName + "'," + seatNo + ", '" + cType + "')");
         } catch (SQLException ex) {
-            System.out.println("error: "+ ex.getMessage());
+            System.out.println("error: " + ex.getMessage());
         }
     }
 
- 
+    public ArrayList getEventSeats(String EventName) {
+        ArrayList seatList = new ArrayList();
+        return null;
+
+    }
+    
+
 }

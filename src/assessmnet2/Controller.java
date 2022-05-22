@@ -14,61 +14,103 @@ import java.awt.event.ActionListener;
  */
 public class Controller implements ActionListener {
 
-    public View view;
-    public Model model;
+    public EventView evView;
+    public EventModel evModel;
+    public BookingModel bkModel;
     String EventName;
+    public BookingView bkView = null;
 
-    public Controller(View view, Model model) {
-        this.view = view;
-        this.model = model;
-        this.view.addActionListener(this);
+    public Controller(EventView view, EventModel evModel) {
+        this.evView = view;
+        this.evModel = evModel;
+        this.evView.addActionListener(this);
+      //  this.bkModel=new BookingModel();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        
+          try{
+                    
+             
         switch (command) {
             case "Add Event":
 
  
     try {
-
-                EventName = this.view.getEventName();
-                String EventDate = this.view.getEventDate();
-                String EventPrice = this.view.getEventPrice();
+                EventName = this.evView.getEventName().trim();
+                String EventDate = this.evView.getEventDate().trim();
+                String EventPrice = this.evView.getEventPrice().trim();
                 double dPrice = Double.parseDouble(EventPrice);
-
-                if (dPrice <= 0) {
-                    this.view.setMessage("invalid price must be greater than 0!");
-                } else {
-                    this.model.CreateEvent(EventName, EventDate, dPrice);
-                    System.out.println(EventName + " " + EventDate);
-                            this.view.setEventBox(EventName);
-                               this.view.setMessage("success!");
-
-                }
+              /* if(!this.model.checkDate(EventDate)) 
+               {
+                   this.view.setMessage("Date error");
+               }*/
+               if( this.evModel.CreateEvent(EventName, EventDate, dPrice))
+               {
+                    this.evView.setEventBox(EventName);
+                    this.evView.setMessage("event created!");
+               }
+       
             } catch (NumberFormatException ex) {
-                this.view.setMessage("invalid seat price!");
+                this.evView.setMessage("invalid !");
 
             }
-
-            break;
-            case "Add Booking": {
-                String customerName = this.view.getCustomerName();
-                String cType = this.view.getCustomerType();
-                int seatNo = this.view.getSeatNo();
-                try {
-                    EventName = this.view.getSelectedEvent();
-                     System.out.println(EventName+" "+customerName + " " + cType);
-                    this.model.addBooking(EventName, customerName, cType,seatNo);
                    
+            break;
+
+            case "Add Booking": {
+              
+                 EventName = this.evView.getSelectedEvent();
+                 if (bkView == null|| bkView.isOpen() ==false)
+                 {
+                            String BKcommand = e.getActionCommand();
+        switch (BKcommand) {
+            case "Add":
+                
+                break;
+            case "Cancel":
+                
+                bkView.close();
+                bkView = null;
+                break;
+        }
+                     
+                            bkView = new BookingView();
+                 }
+                 else
+                 {
+                     System.out.println("already open");
+                 }
+          
+                 //get the available seats for the event
+                
+              /*  String customerName = this.evView.getCustomerName();
+                String cType = this.evView.getCustomerType();
+                int seatNo = this.evView.getSeatNo();
+                try {
+                   
+                    System.out.println(EventName + " " + customerName + " " + cType);
+                    this.bkModel.addBooking(EventName, customerName, cType, seatNo);
+
                 } catch (NullPointerException ex) {
-                    this.view.setMessage("please select event!");
+                    this.evView.setMessage("please select event!");
                     System.out.println("please selecet or create new event");
-                }
+              
+                } 
+                */
+              
+break;
 
             }
-        }
-    }
+            default :
 
+        }
+    
+   }catch(NullPointerException ex)
+                {
+                    System.out.println("error : no events");
+                }
+    }
 }

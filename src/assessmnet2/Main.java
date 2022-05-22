@@ -11,9 +11,11 @@ package assessmnet2;
  */
 public class Main {
     public static void main(String[] args) {
-        View view = new View();
-        Model model = new Model();
-       Controller control = new Controller(view,model);
+        System.out.println("Please connect to DB server");
+
+        EventView evView = new EventView();
+        EventModel evModel = new EventModel();
+       Controller control = new Controller(evView,evModel);
     }
     
 }
