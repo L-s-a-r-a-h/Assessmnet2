@@ -10,12 +10,29 @@ package assessmnet2;
  * @author Sarah
  */
 public class EventData {
-    String name;//event name
-    String date; 
-    double price;
+   private String name;//event name
+  private  String date; 
+  private  double price;
+
+    public String getName() {
+        return name;
+    }
+
+
+
+    public String getDate() {
+        return date;
+    }
+
+
+
+    public double getPrice() {
+        return price;
+    }
+
     
      EventData(String name, String date, double price) {
-        this.name = name;
+        this.name = name.trim();
         this.date = date;
         this.price=price;
     }

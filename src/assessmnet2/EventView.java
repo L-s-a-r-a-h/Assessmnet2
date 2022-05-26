@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,7 +24,7 @@ public class EventView extends javax.swing.JFrame implements Observer {
      */
     public EventView() {
         initComponents();
-        setEventTable("hihi",1,1);
+                model= (DefaultTableModel) this.eventListTable.getModel();
 
 
         this.setVisible(true);
@@ -54,6 +55,7 @@ public class EventView extends javax.swing.JFrame implements Observer {
         eventSelectLabel = new javax.swing.JLabel();
         eventsBox = new javax.swing.JComboBox<>();
         addBookingButton = new javax.swing.JButton();
+        outMessage = new javax.swing.JLabel();
         message = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,17 +86,17 @@ public class EventView extends javax.swing.JFrame implements Observer {
 
         priceLabel.setText("Seat price:");
 
+        model= (DefaultTableModel) this.eventListTable.getModel();
         eventListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "EventID", "Event Name", "Date", "Price"
+                "Event Name", "Date", "Price ($)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -102,6 +104,9 @@ public class EventView extends javax.swing.JFrame implements Observer {
             }
         });
         jScrollPane2.setViewportView(eventListTable);
+        if (eventListTable.getColumnModel().getColumnCount() > 0) {
+            eventListTable.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("date format: dd/mm/yy");
@@ -115,6 +120,8 @@ public class EventView extends javax.swing.JFrame implements Observer {
         });
 
         addBookingButton.setText("Add Booking");
+
+        outMessage.setText("message");
 
         javax.swing.GroupLayout addEventPanelLayout = new javax.swing.GroupLayout(addEventPanel);
         addEventPanel.setLayout(addEventPanelLayout);
@@ -155,6 +162,8 @@ public class EventView extends javax.swing.JFrame implements Observer {
             .addGroup(addEventPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(outMessage)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         addEventPanelLayout.setVerticalGroup(
@@ -168,7 +177,9 @@ public class EventView extends javax.swing.JFrame implements Observer {
                     .addComponent(eventSelectLabel)
                     .addComponent(addBookingButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(outMessage))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(eventNameLabel)
@@ -195,9 +206,9 @@ public class EventView extends javax.swing.JFrame implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
+                        .addGap(140, 140, 140)
                         .addComponent(BSLabel)
-                        .addGap(89, 89, 89)
+                        .addGap(119, 119, 119)
                         .addComponent(message))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -208,7 +219,7 @@ public class EventView extends javax.swing.JFrame implements Observer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BSLabel)
                     .addComponent(message))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -250,20 +261,18 @@ public class EventView extends javax.swing.JFrame implements Observer {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel message;
     private javax.swing.JLabel newEventLabel;
+    private javax.swing.JLabel outMessage;
     private javax.swing.JTextField priceField;
     private javax.swing.JLabel priceLabel;
     // End of variables declaration//GEN-END:variables
+       private  DefaultTableModel model;
 
-    public void setEventTable(String str, int col, int row)
-    {
-//this.eventListTable.setValueAt(str, col, row);
-  
-    }
-    public void initEventBox()
-    {
-            this.eventsBox.addItem("");
+    public void addevent(EventData data)
+    {   
+                this.model.addRow(new Object[]{data.getName(),data.getDate(),data.getPrice()});
     }
     
+ 
     public void setEventBox(String eventName){
     this.eventsBox.addItem(eventName);
     }
@@ -274,22 +283,22 @@ public class EventView extends javax.swing.JFrame implements Observer {
     
 
     public String getEventName() {
-        return this.eventNameField.getText();
+        return this.eventNameField.getText().trim();
     }
 
     public String getEventDate() {
-        return this.dateField.getText();
+        return this.dateField.getText().trim();
     }
 
     public String getEventPrice() {
-        return this.priceField.getText();
+        return this.priceField.getText().trim();
     }
 
 
  
     public void setMessage(String message)
     {
-        this.message.setText(message);
+        this.outMessage.setText(message);
     }
 
     public void addActionListener(ActionListener Listener) {
@@ -304,8 +313,12 @@ public class EventView extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable arg0, Object arg) {
 EventData data = (EventData)arg;
-this.eventsBox.addItem(data.name);
-        this.message.setText("");
-        this.repaint();
+this.eventsBox.addItem(data.getName());
+this.addevent(data);
+this.model.fireTableStructureChanged();
+        this.message.setText("ok");
+  //      this.revalidate();
+    //    this.addEventPanel.repaint();
+
     }
 }

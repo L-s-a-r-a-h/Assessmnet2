@@ -6,12 +6,11 @@
 package assessmnet2;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
-import java.util.InputMismatchException;
+
 import java.util.Observable;
 
 /**
@@ -23,6 +22,7 @@ public class EventModel extends Observable {
     //  public DBManager dbManager;
     public ArrayList<EventData> Edata = new ArrayList();
     public Database db;
+    public String message;
 
     public EventModel() {
         // this.dbManager = new DBManager();
@@ -37,7 +37,7 @@ public class EventModel extends Observable {
         this.Edata = db.getEventList();
         for (int i = 0; i <= this.Edata.size() - 1; i++) {
             thisEvent = this.Edata.get(i);
-            System.out.println(thisEvent.name + " " + thisEvent.date + " $" + thisEvent.price);
+            System.out.println(thisEvent.getName() + " " + thisEvent.getDate() + " $" + thisEvent.getPrice());
 
         }
 
@@ -51,64 +51,70 @@ public class EventModel extends Observable {
         return thisEvent;
     }
 
-    public boolean CreateEvent(String name, String date, double price) {
+    public boolean CreateEvent(EventData data) {
 
-        EventData newEvent = new EventData(name, date, price);
-        if (!checkEventInput(name, date, price)) {
+        //EventData newEvent = new EventData(data);
+        if (!checkEventInput(data)) {
             System.out.println("Input error");
             return false;
         } else {
-            this.db.addEvent(newEvent);
-            this.Edata.add(newEvent);
-                    this.setChanged();
-        this.notifyObservers(this.Edata);
-return true;
+            this.db.addEvent(data);
+            this.Edata.add(data);
+            this.setChanged();
+            this.notifyObservers(this.Edata);
+            return true;
         }
-
 
     }
 
-    public boolean checkEventInput(String name, String date, double price) {
+    public boolean checkEventInput(EventData data) {
         boolean isValid = true;
-        String message = "";
-        if (name.length() > 0 && name.length() <= 50) {
-            if (db.checkEvent(name)) //if event already exists
+
+        if (data.getName().length() > 0 && data.getName().length() <= 50) {
+
+            if (Character.isDigit(data.getName().charAt(0))) {
+                isValid = false;
+                this.message = "name cannot begin with a number";
+            }
+            if (db.checkEvent(data.getName())) //if event already exists
             {
                 isValid = false;
+                this.message = "event with same name already exists";
             }
         } else {
             isValid = false;
-            message = "name lenth must be between 1 and 50 characters";
+            this.message = "name lenth must be between 1 and 50 characters";
         }
-        if (price <= 0) {
+
+        if (data.getPrice() <= 0 || data.getPrice() > 1000) {
             isValid = false;
-            message = "price must be greater than $0";
+            this.message = "price must be greater than $0 and less than $1000";
         }
-        if (!checkDate(date)) {
+        if (!checkDate(data.getDate())) {
             message = "invalid date";
             isValid = false;
         }
         System.out.println(message);
         return isValid;
-    }
 
+    }
 
     public boolean checkDate(String EventDate) {
         boolean isValid = false;
-    //    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
-SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy"); // required format of date
+        //  DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy"); // required format of date
 
         try {
             Date date = format.parse(EventDate);
 
-      //  format.parse(EventDate);
-        //    if (thisDate.isAfter(today)) {
-                isValid = true;
-           // }
-          //  thisDate = thisDate.format(format);
+            //  format.parse(EventDate);
+            //    if (thisDate.isAfter(today)) {
+            isValid = true;
+            // }
+            //  thisDate = thisDate.format(format);
         } catch (Exception e) {
             // Logger.getLogger(BookingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Date error "+e.getMessage());
+            System.out.println("Date error " + e.getMessage());
             isValid = false;
         }
 

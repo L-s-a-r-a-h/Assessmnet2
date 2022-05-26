@@ -5,33 +5,78 @@
  */
 package assessmnet2;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sarah
  */
 public class BookingModel {
-      public CustomerData Cdata;
-          public Database db;
-      
-          public BookingModel() {
+
+    //  public Booking Cdata;
+    public Database db;
+    public ArrayList<Integer> bookedSeats; // list of unavailable seats
+    private String message;
+    private String seats;
+
+    public BookingModel(Database db) {
         // this.dbManager = new DBManager();
-        this.db = new Database();
-        this.Cdata = db.Cdata;
-    
+
+        this.db = db;
+        this.bookedSeats = new ArrayList();
 
     }
-    public void addBooking(String EventName, String customerName, String cType, int seatNo) {
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public boolean addBooking(String eventName, Booking bk) {
         System.out.println("add Booking");
-        boolean exist = db.checkEvent(EventName);
-        System.out.println("hello");
-        if (db.checkEvent(EventName)) {
-            this.db.addBooking(EventName, customerName, cType, seatNo);
+
+        if (db.checkEvent(eventName)) {
+            getBookings(eventName);
+            if (checkSeat(bk.seatNo)) {
+                this.db.addBooking(eventName, bk);
+                this.message = "success";
+                return true;
+            } else {
+                this.message = "seat unavailable";
+                return false;
+            }
         } else {
-            //  this.db.createEventBookingsTable(EventName);
-            this.db.addBooking(EventName, customerName, cType, seatNo);
+            this.message = "error";
+            return false;
 
         }
 
+    }
+
+    private boolean checkSeat(int seatNo) {
+        //if seat is not available return false
+        if (this.bookedSeats.contains(seatNo)) {
+            this.message = ("Seat is not available. Enter another number");
+            return false;
+        } else {
+
+            return true;
+        }
 
     }
+
+    public void getBookings(String event) {
+        this.bookedSeats = this.db.getEventSeats(event);
+
+
+    }
+    
+    public String getSeats()
+    {
+                StringBuilder SB = new StringBuilder();
+        for (Integer i : this.bookedSeats) {
+            SB.append(i+ " ");
+        }
+       return this.seats=SB.toString();
+    }
+
 }

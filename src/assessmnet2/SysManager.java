@@ -9,9 +9,6 @@ package assessmnet2;
  *
  * @author Sarah
  */
-public class CustomerData {
-    String name;
-    Customer type;
-    int seatNo;
+public class SysManager {
     
 }

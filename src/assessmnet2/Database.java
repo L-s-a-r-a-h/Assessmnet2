@@ -25,7 +25,7 @@ public class Database {
     private Statement statement;
 
     public ArrayList<EventData> EdataList;
-    public CustomerData Cdata;
+    // public Booking Cdata;
 
     Database() {
         this.EdataList = new ArrayList();
@@ -46,7 +46,7 @@ public class Database {
     private void initDB() {
         try {
             this.statement = conn.createStatement();
-            this.statement.executeUpdate("DROP TABLE EVENTS");
+         //   this.statement.executeUpdate("DROP TABLE EVENTS");
 
             this.statement.executeUpdate("CREATE  TABLE EVENTS  (  eventName   VARCHAR(50),   eventDate   VARCHAR(20),   PRICE   DOUBLE)");
             System.out.println("table created");
@@ -56,8 +56,8 @@ public class Database {
                     + "( 'Cook with Jamie', '13/09/2022', 55.20),\n"
                     + "('Far Eastern Odyssey', '20/07/2022', 24.90)");
 
-        } catch (SQLException ex) {
-            System.out.println("error  " + ex.getMessage());
+        } catch (Exception ex) {
+           // System.out.println("Please start Java db server");
         }
     }
 
@@ -101,9 +101,11 @@ public class Database {
 
     // add the new event to the database
     public void addEvent(EventData newEvent) {
+        String name = formatString(newEvent.getName());
+
         try {
-            this.statement.executeUpdate("INSERT INTO EVENTS VALUES ( '" + newEvent.name + "', '" + newEvent.date + "', " + newEvent.price + ")");
-            createTable(newEvent);
+            this.statement.executeUpdate("INSERT INTO EVENTS VALUES ( '" + name + "', '" + newEvent.getDate() + "', " + newEvent.getPrice() + ")");
+            createTable(name);
             this.EdataList.add(newEvent);
         } catch (SQLException ex) {
             System.out.println("add event error " + ex.getMessage());
@@ -111,31 +113,18 @@ public class Database {
     }
 // create a new table for an events seat bookings
 
-    private void createTable(EventData newEvent) {
-        String name = newEvent.name.trim();
+    private void createTable(String str) {
+        String name = formatString(str);
+        name = name.replaceAll("\\s+", "");
         try {
             this.statement.executeUpdate("CREATE TABLE " + name + " (cName VARCHAR(20), seatNo INT, cType VARCHAR(20))");
             System.out.println(name + "  Table created");
         } catch (SQLException ex) {
-            System.out.println("createEventBookingsTable error " + ex.getMessage());
+            // System.out.println("createEventBookingsTable error " + ex.getMessage());
         }
     }
 
-    /*  public void createEventBookingsTable(String tableName) {
-        if (!checkTableExisting(tableName) ) {
-            try {
-                this.statement.executeUpdate("CREATE TABLE " + tableName + " (cName VARCHAR(20), seatNo INT, cType VARCHAR(20))");
-                System.out.println(tableName+"  Table created");
-            } catch (SQLException ex) {
-                System.out.println("createEventBookingsTable error "+ ex.getMessage());
-            }
-        }else
-        {
-            System.out.println(tableName+"  table found ");
-    }
-
-    }
-     */
+ 
     // create a new booking table when a new event is created
 //check to see if the event exists
     public boolean checkEvent(String eventName) {
@@ -159,9 +148,15 @@ public class Database {
     }
 
 // add customer booking to selected event
-    public void addBooking(String EventName, String customerName, String cType, int seatNo) {
+    public void addBooking(String EventName, Booking customer) {
+        String name = formatString(EventName);
+
+        name = name.replaceAll("\\s+", "");
+        if (!tableExists(name)) {
+            createTable(name);
+        }
         try {
-            this.statement.executeUpdate("INSERT INTO " + EventName + " VALUES ('" + customerName + "'," + seatNo + ", '" + cType + "')");
+            this.statement.executeUpdate("INSERT INTO " + name + " VALUES ('" + formatString(customer.name) + "'," + customer.seatNo + ", '" + customer.type + "')");
         } catch (SQLException ex) {
             System.out.println("error: " + ex.getMessage());
         }
@@ -169,9 +164,41 @@ public class Database {
 
     public ArrayList getEventSeats(String EventName) {
         ArrayList seatList = new ArrayList();
-        return null;
+        String name = formatString(EventName);
+        name = name.replaceAll("\\s+", "");
+        ResultSet rs = queryDB("SELECT seatNo FROM " + name);
+        int thisSeat;
+        try {
+            while (rs.next()) {
+                thisSeat = rs.getInt("seatNo");
+                System.out.println(thisSeat);
+                seatList.add(thisSeat);
+
+            }
+    
+        } catch (Exception ex) {
+            System.out.println("get event seats error : " + ex.getMessage());
+        }
+
+        return seatList;
 
     }
-    
 
+    private boolean tableExists(String name) {
+        boolean exists = false;
+        try {
+            DatabaseMetaData dbmd = this.conn.getMetaData();
+            ResultSet rs = dbmd.getTables(null, null, name, null);
+
+            exists = rs.next();
+        } catch (SQLException ex) {
+            System.out.println("error: " + ex.getMessage());
+        }
+        return exists;
+    }
+
+    private String formatString(String str) {
+
+        return str.replaceAll("[^a-zA-Z0-9]+", "").trim();
+    }
 }

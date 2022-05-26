@@ -8,18 +8,21 @@ package assessmnet2;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Sarah
  */
-public class BookingView extends javax.swing.JFrame {
-private boolean open ;
+public class BookingView extends javax.swing.JFrame  implements Observer {
+private boolean open=false;
     /**
      * Creates new form BookingView
      */
-    public BookingView() {
+    public BookingView(String name) {
         initComponents();
+    this.eventNameLabel.setText(name); 
         this.setVisible(true);
         open = true;
     }
@@ -46,7 +49,7 @@ private boolean open ;
         jLabel1 = new javax.swing.JLabel();
         AvailableSeats = new javax.swing.JLabel();
         eventNameLabel = new javax.swing.JLabel();
-        cancelButton = new javax.swing.JButton();
+        message = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -82,7 +85,7 @@ private boolean open ;
 
         eventNameLabel.setText("jLabel2");
 
-        cancelButton.setText("Cancel");
+        message.setText("message");
 
         javax.swing.GroupLayout addBookingPanelLayout = new javax.swing.GroupLayout(addBookingPanel);
         addBookingPanel.setLayout(addBookingPanelLayout);
@@ -106,11 +109,12 @@ private boolean open ;
                     .addGroup(addBookingPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AvailableSeats, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(message)
+                            .addComponent(AvailableSeats, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(24, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addBookingPanelLayout.createSequentialGroup()
-                .addComponent(cancelButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(addBookingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         addBookingPanelLayout.setVerticalGroup(
@@ -136,10 +140,10 @@ private boolean open ;
                 .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(AvailableSeats))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addBookingButton)
-                    .addComponent(cancelButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(message)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addBookingButton)
                 .addGap(25, 25, 25))
         );
 
@@ -179,7 +183,6 @@ this.open =false;
     private javax.swing.JLabel AvailableSeats;
     private javax.swing.JButton addBookingButton;
     private javax.swing.JPanel addBookingPanel;
-    private javax.swing.JButton cancelButton;
     private javax.swing.JTextField customerNameField;
     private javax.swing.JLabel customerNameLabel;
     private javax.swing.JComboBox<String> customerTypeBox;
@@ -187,16 +190,17 @@ this.open =false;
     private javax.swing.JLabel eventNameLabel;
     private javax.swing.JLabel eventSelectLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel message;
     private javax.swing.JLabel seatNoLanel;
     private javax.swing.JComboBox<String> seatNumberBox;
     // End of variables declaration//GEN-END:variables
 
     public String getCustomerName() {
-        return this.customerNameField.getText();
+        return this.customerNameField.getText().trim();
     }
 
     public String getCustomerType(){
-        return this.customerTypeBox.getSelectedItem().toString();
+        return  (String) this.customerTypeBox.getSelectedItem();
     }
 
         public int getSeatNo(){
@@ -206,18 +210,37 @@ this.open =false;
         
             public void addActionListener(ActionListener Listener) {
 
-        this.cancelButton.addActionListener(Listener);
+       
         this.addBookingButton.addActionListener(Listener);
   
 
     }
        public boolean isOpen(){
+ 
            return this.open;
+}
+
+       public void setMessage(String str)
+       {
+           this.message.setText(str);
+       }
+       public void setSeats(String str)
+       {
+           this.AvailableSeats.setText(str);
        }
 
-
    public void close() {
-WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+       this.open = false;
+        WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+        this.dispose();
+
    }
+
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        
+    }
+
+
 }
