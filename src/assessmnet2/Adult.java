@@ -21,9 +21,9 @@ public class Adult extends Customer {
     }
 
     @Override
-    public void printInfo() {
+    public String getInfo() {
 
-        System.out.println("Adult has no discount");
+        return("Adult has no discount");
 
     }
 

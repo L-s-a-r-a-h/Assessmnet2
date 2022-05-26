@@ -5,6 +5,8 @@
  */
 package assessmnet2;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Sarah
@@ -18,12 +20,13 @@ public abstract class Customer {
         this.customerType = cType;
     }
 
-    public double getCost() {
+    public String getCost() {
+        DecimalFormat df = new DecimalFormat ("#.##");
         //get the discounted cost of the customer type
-        return calculateCost();
+        return String.format("%.2f", calculateCost());//df.format(calculateCost());
     }
 
-    public abstract void printInfo();
+    public abstract String getInfo();
 
     public abstract double calculateCost();
 }

@@ -19,9 +19,10 @@ public class Senior extends Customer{
         this.price=price;
 
     }
-      public void printInfo() {
+    @Override
+      public String getInfo() {
       
-        System.out.println("Senior has 5% discount");
+        return("Senior has 5% discount");
      
     }
                    

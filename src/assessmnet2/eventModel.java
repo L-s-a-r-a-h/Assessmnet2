@@ -6,18 +6,15 @@
 package assessmnet2;
 
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.Date;
-
-import java.util.Observable;
 
 /**
  *
  * @author Sarah
  */
-public class EventModel extends Observable {
+public class EventModel {
 
     //  public DBManager dbManager;
     public ArrayList<EventData> Edata = new ArrayList();
@@ -53,15 +50,13 @@ public class EventModel extends Observable {
 
     public boolean CreateEvent(EventData data) {
 
-        //EventData newEvent = new EventData(data);
         if (!checkEventInput(data)) {
             System.out.println("Input error");
             return false;
         } else {
             this.db.addEvent(data);
             this.Edata.add(data);
-            this.setChanged();
-            this.notifyObservers(this.Edata);
+
             return true;
         }
 
@@ -83,7 +78,7 @@ public class EventModel extends Observable {
             }
         } else {
             isValid = false;
-            this.message = "name lenth must be between 1 and 50 characters";
+            this.message = "name must have between 1 and 50 alphabetic characters";
         }
 
         if (data.getPrice() <= 0 || data.getPrice() > 1000) {
@@ -100,18 +95,23 @@ public class EventModel extends Observable {
     }
 
     public boolean checkDate(String EventDate) {
-        boolean isValid = false;
-        //  DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy"); // required format of date
+        boolean isValid;
+        LocalDate ld = LocalDate.now();
+        String todayStr = ld.toString();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/mm/dd"); // required format of date
 
         try {
-            Date date = format.parse(EventDate);
+            todayStr = todayStr.replace("-", "/");
 
-            //  format.parse(EventDate);
-            //    if (thisDate.isAfter(today)) {
-            isValid = true;
-            // }
-            //  thisDate = thisDate.format(format);
+            Date todayDate = format.parse(todayStr);
+            Date evdate = format.parse(EventDate);
+            if (evdate.after(todayDate)) {
+                isValid = true;
+            } else {
+                this.message = "invalid date";
+                isValid = false;
+            }
+
         } catch (Exception e) {
             // Logger.getLogger(BookingSystem.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Date error " + e.getMessage());
@@ -119,6 +119,18 @@ public class EventModel extends Observable {
         }
 
         return isValid;
+    }
+
+    public double getEventPrice(String evName) {
+        double price = 0;
+        for (int i = 0; i < this.Edata.size(); i++) {
+            if (this.Edata.get(i).getName() == evName) {
+                price = this.Edata.get(i).getPrice();
+                System.out.println(price);
+            }
+        }
+        return price;
+
     }
 
 }

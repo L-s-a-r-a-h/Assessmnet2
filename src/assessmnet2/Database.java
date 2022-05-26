@@ -101,7 +101,7 @@ public class Database {
 
     // add the new event to the database
     public void addEvent(EventData newEvent) {
-        String name = formatString(newEvent.getName());
+        String name = (newEvent.getName());
 
         try {
             this.statement.executeUpdate("INSERT INTO EVENTS VALUES ( '" + name + "', '" + newEvent.getDate() + "', " + newEvent.getPrice() + ")");
@@ -114,8 +114,7 @@ public class Database {
 // create a new table for an events seat bookings
 
     private void createTable(String str) {
-        String name = formatString(str);
-        name = name.replaceAll("\\s+", "");
+        String name = str.replaceAll("\\s+", "");
         try {
             this.statement.executeUpdate("CREATE TABLE " + name + " (cName VARCHAR(20), seatNo INT, cType VARCHAR(20))");
             System.out.println(name + "  Table created");
@@ -149,14 +148,12 @@ public class Database {
 
 // add customer booking to selected event
     public void addBooking(String EventName, Booking customer) {
-        String name = formatString(EventName);
-
-        name = name.replaceAll("\\s+", "");
+        String name = EventName.replaceAll("\\s+", "");
         if (!tableExists(name)) {
             createTable(name);
         }
         try {
-            this.statement.executeUpdate("INSERT INTO " + name + " VALUES ('" + formatString(customer.name) + "'," + customer.seatNo + ", '" + customer.type + "')");
+            this.statement.executeUpdate("INSERT INTO " + name + " VALUES ('" + (customer.name) + "'," + customer.seatNo + ", '" + customer.type + "')");
         } catch (SQLException ex) {
             System.out.println("error: " + ex.getMessage());
         }
@@ -164,16 +161,15 @@ public class Database {
 
     public ArrayList getEventSeats(String EventName) {
         ArrayList seatList = new ArrayList();
-        String name = formatString(EventName);
-        name = name.replaceAll("\\s+", "");
+        String name =EventName.replaceAll("\\s+", "");
         ResultSet rs = queryDB("SELECT seatNo FROM " + name);
         int thisSeat;
         try {
             while (rs.next()) {
                 thisSeat = rs.getInt("seatNo");
-                System.out.println(thisSeat);
+           //     System.out.println(thisSeat);
                 seatList.add(thisSeat);
-
+             //   System.out.println(seatList.toString());
             }
     
         } catch (Exception ex) {
@@ -197,8 +193,5 @@ public class Database {
         return exists;
     }
 
-    private String formatString(String str) {
-
-        return str.replaceAll("[^a-zA-Z0-9]+", "").trim();
-    }
+   
 }

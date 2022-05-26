@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Sarah
  */
-public class EventView extends javax.swing.JFrame implements Observer {
+public class EventView extends javax.swing.JFrame  {
 
     /**
      * Creates new form View2
@@ -109,7 +109,7 @@ public class EventView extends javax.swing.JFrame implements Observer {
         }
 
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel2.setText("date format: dd/mm/yy");
+        jLabel2.setText("date format: yyyy/mm/dd");
 
         eventSelectLabel.setText("Select Event:");
 
@@ -143,18 +143,17 @@ public class EventView extends javax.swing.JFrame implements Observer {
                             .addComponent(eventNameLabel)
                             .addComponent(dateLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(createEventButton)
-                                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEventPanelLayout.createSequentialGroup()
-                                        .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(priceLabel)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(eventNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(createEventButton)
+                            .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(addEventPanelLayout.createSequentialGroup()
+                                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(priceLabel)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(eventNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(addEventPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,15 +309,5 @@ public class EventView extends javax.swing.JFrame implements Observer {
 
     }
 
-    @Override
-    public void update(Observable arg0, Object arg) {
-EventData data = (EventData)arg;
-this.eventsBox.addItem(data.getName());
-this.addevent(data);
-this.model.fireTableStructureChanged();
-        this.message.setText("ok");
-  //      this.revalidate();
-    //    this.addEventPanel.repaint();
-
-    }
+    
 }

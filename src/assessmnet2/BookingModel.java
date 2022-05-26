@@ -6,6 +6,7 @@
 package assessmnet2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -54,29 +55,32 @@ public class BookingModel {
 
     private boolean checkSeat(int seatNo) {
         //if seat is not available return false
-        if (this.bookedSeats.contains(seatNo)) {
-            this.message = ("Seat is not available. Enter another number");
-            return false;
-        } else {
-
-            return true;
-        }
-
-    }
-
-    public void getBookings(String event) {
-        this.bookedSeats = this.db.getEventSeats(event);
-
+        return !this.bookedSeats.contains(seatNo);
 
     }
     
-    public String getSeats()
+    public void checkInput(String str)
     {
-                StringBuilder SB = new StringBuilder();
-        for (Integer i : this.bookedSeats) {
-            SB.append(i+ " ");
-        }
-       return this.seats=SB.toString();
+        this.message = "";
     }
+
+    public String getBookings(String event) {
+        this.bookedSeats = this.db.getEventSeats(event);
+      
+        if (!this.bookedSeats.isEmpty()) {
+            System.out.println(this.bookedSeats.toString());
+            Collections.sort(bookedSeats);
+      return this.bookedSeats.toString();
+
+        }
+        else
+        {
+            seats = "none";
+        }
+        return seats;
+
+    }
+
+
 
 }

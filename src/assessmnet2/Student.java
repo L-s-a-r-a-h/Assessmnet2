@@ -21,9 +21,9 @@ public class Student extends Customer {
     }
 
     @Override
-    public void printInfo() {
+    public String getInfo() {
 
-        System.out.println("Student has a 10% discount");
+       return("Student has a 10% discount");
 
     }
 

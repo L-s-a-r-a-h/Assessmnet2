@@ -22,9 +22,9 @@ public class Child extends Customer{
 
     }
         @Override
-          public void printInfo() {
+          public String getInfo() {
       
-        System.out.println("Child has 50% discount");
+        return("Child has 50% discount");
      
     }
    @Override
