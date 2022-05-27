@@ -5,35 +5,43 @@
  */
 package assessmnet2;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Sarah
  */
 public class EventData {
-   private String name;//event name
-  private  String date; 
-  private  double price;
+
+    private String name;//event name
+    private String date;
+    private double price;
 
     public String getName() {
         return name;
     }
 
-
-
     public String getDate() {
         return date;
     }
-
-
 
     public double getPrice() {
         return price;
     }
 
-    
-     EventData(String name, String date, double price) {
+    public EventData(String name, String date, double price) {
         this.name = name.trim();
         this.date = date;
-        this.price=price;
+        this.price = formatPrice(price);
+    }
+    
+    
+    //format the price to only be 2dp  
+    public double formatPrice(double price) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String priceStr = df.format(price);
+//String.format("%.20f",price);
+
+        return Double.parseDouble(priceStr);
     }
 }

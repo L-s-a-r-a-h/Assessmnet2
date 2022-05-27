@@ -5,29 +5,28 @@
  */
 package assessmnet2;
 
-import java.awt.Toolkit;
+
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.util.Observable;
-import java.util.Observer;
+
 
 /**
  *
  * @author Sarah
  */
-public class BookingView extends javax.swing.JFrame  implements Observer {
-private boolean open=false;
+public class BookingView extends javax.swing.JFrame {
+
+    private boolean open = false; // flag to see if there is booking panel in use
+
     /**
      * Creates new form BookingView
      */
     public BookingView(String name) {
         initComponents();
-    this.eventNameLabel.setText(name); 
+        this.eventNameLabel.setText(name);
         this.setVisible(true);
         open = true;
     }
 
-  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,10 +47,10 @@ private boolean open=false;
         addBookingButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         eventNameLabel = new javax.swing.JLabel();
-        message = new javax.swing.JLabel();
         priceLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         unavailableSeats1 = new javax.swing.JTextArea();
+        message = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -61,8 +60,6 @@ private boolean open=false;
         });
 
         customerNameLabel.setText("Customer Name: ");
-
-        customerNameField.setText("Enter name");
 
         eventSelectLabel.setText("Add booking for: ");
 
@@ -85,9 +82,7 @@ private boolean open=false;
 
         eventNameLabel.setText("jLabel2");
 
-        message.setText("message");
-
-        priceLabel.setText("jLabel2");
+        priceLabel.setText("                ");
 
         unavailableSeats1.setColumns(20);
         unavailableSeats1.setRows(5);
@@ -95,6 +90,9 @@ private boolean open=false;
         unavailableSeats1.setEditable(false);
         unavailableSeats1.setLineWrap(true);
         unavailableSeats1.setOpaque(false);
+
+        message.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        message.setText("        ");
 
         javax.swing.GroupLayout addBookingPanelLayout = new javax.swing.GroupLayout(addBookingPanel);
         addBookingPanel.setLayout(addBookingPanelLayout);
@@ -106,65 +104,64 @@ private boolean open=false;
                     .addGroup(addBookingPanelLayout.createSequentialGroup()
                         .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(customerNameLabel)
-                            .addComponent(eventSelectLabel)
                             .addComponent(customerTypeLabel)
                             .addComponent(seatNoLanel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(eventNameLabel)
                             .addComponent(customerTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(customerNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(66, Short.MAX_VALUE))
+                        .addContainerGap(95, Short.MAX_VALUE))
+                    .addGroup(addBookingPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(addBookingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
                     .addGroup(addBookingPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1)
                         .addGap(19, 19, 19))
                     .addGroup(addBookingPanelLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(priceLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addBookingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))))
-            .addGroup(addBookingPanelLayout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addComponent(message)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(addBookingPanelLayout.createSequentialGroup()
+                                .addComponent(eventSelectLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(eventNameLabel))
+                            .addComponent(priceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         addBookingPanelLayout.setVerticalGroup(
             addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addBookingPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addBookingPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(message)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eventSelectLabel)
+                    .addComponent(eventNameLabel))
+                .addGap(30, 30, 30)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customerNameLabel)
+                    .addComponent(customerNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(customerTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customerTypeLabel))
+                .addGap(18, 18, 18)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(seatNoLanel)
+                    .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addBookingPanelLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(eventSelectLabel)
-                            .addComponent(eventNameLabel))
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(customerNameLabel)
-                            .addComponent(customerNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(customerTypeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(customerTypeLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(seatNoLanel)
-                            .addComponent(seatNumberBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 59, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addBookingPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(priceLabel)
-                            .addComponent(addBookingButton))
-                        .addGap(14, 14, 14))))
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(priceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(addBookingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBookingButton)
+                    .addComponent(message))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,14 +169,14 @@ private boolean open=false;
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(37, 37, 37)
                 .addComponent(addBookingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addComponent(addBookingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -192,13 +189,12 @@ private boolean open=false;
     }//GEN-LAST:event_seatNumberBoxActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-this.open =false;
+        this.open = false;
     }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBookingButton;
@@ -218,52 +214,47 @@ this.open =false;
     private javax.swing.JTextArea unavailableSeats1;
     // End of variables declaration//GEN-END:variables
 
+
+//get user input and selections
     public String getCustomerName() {
         return this.customerNameField.getText().trim();
     }
 
-    public String getCustomerType(){
-        return  (String) this.customerTypeBox.getSelectedItem();
+    public String getCustomerType() {
+        return (String) this.customerTypeBox.getSelectedItem();
     }
 
-        public int getSeatNo(){
+    public int getSeatNo() {
         int seatNo = Integer.parseInt(this.seatNumberBox.getSelectedItem().toString());
         return seatNo;
     }
-        
-            public void addActionListener(ActionListener Listener) {
 
-       
+    public void addActionListener(ActionListener Listener) {
+
         this.addBookingButton.addActionListener(Listener);
-  
 
     }
-       public boolean isOpen(){
- 
-           return this.open;
-}
+    //flag to see if booking panel is in use
 
-       public void setMessage(String str)
-       {
-           this.message.setText(str);
-       }
-       public void setSeats(String str)
-       {
-           this.unavailableSeats1.setText(str);
-          
-       }
+    public boolean isOpen() {
 
-       
-       public void setPriceLabel(String str)
-       {
-      this.priceLabel.setText(str);
-       }
- 
-
-    @Override
-    public void update(Observable arg0, Object arg1) {
-        
+        return this.open;
     }
+//set error or success message
+
+    public void setMessage(String str) {
+        this.message.setText(str);
+    }
+//display unavailable seats
+    public void setSeats(String str) {
+        this.unavailableSeats1.setText(str);
+
+    }
+
+    public void setPriceLabel(String str) {
+        this.priceLabel.setText(str);
+    }
+
 
 
 }

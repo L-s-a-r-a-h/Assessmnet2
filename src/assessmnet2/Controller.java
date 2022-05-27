@@ -23,12 +23,10 @@ public class Controller implements ActionListener {
 
     public Controller(EventView view, EventModel evModel) {
         this.evView = view;
-     //  this.evModel = evModel;
-        //setTable();
+
         this.evView.addActionListener(this);
         manager = new SysManager(view, evModel);
 
-        //  this.bkModel=new BookingModel();
     }
 
     @Override
@@ -44,7 +42,6 @@ public class Controller implements ActionListener {
             case "Add Booking": {
                 manager.addBooking(this);
 
-                
                 break;
             }
             case "Add": {

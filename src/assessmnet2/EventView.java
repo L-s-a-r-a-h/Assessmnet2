@@ -17,15 +17,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Sarah
  */
-public class EventView extends javax.swing.JFrame  {
+public class EventView extends javax.swing.JFrame {
 
     /**
      * Creates new form View2
      */
     public EventView() {
         initComponents();
-                model= (DefaultTableModel) this.eventListTable.getModel();
-
+        model = (DefaultTableModel) this.eventListTable.getModel();
 
         this.setVisible(true);
     }
@@ -104,9 +103,6 @@ public class EventView extends javax.swing.JFrame  {
             }
         });
         jScrollPane2.setViewportView(eventListTable);
-        if (eventListTable.getColumnModel().getColumnCount() > 0) {
-            eventListTable.getColumnModel().getColumn(0).setResizable(false);
-        }
 
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("date format: yyyy/mm/dd");
@@ -121,65 +117,72 @@ public class EventView extends javax.swing.JFrame  {
 
         addBookingButton.setText("Add Booking");
 
-        outMessage.setText("message");
+        outMessage.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        outMessage.setText("    ");
 
         javax.swing.GroupLayout addEventPanelLayout = new javax.swing.GroupLayout(addEventPanel);
         addEventPanel.setLayout(addEventPanelLayout);
         addEventPanelLayout.setHorizontalGroup(
             addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addEventPanelLayout.createSequentialGroup()
+                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createEventButton))
+                    .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(eventSelectLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(eventsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addBookingButton)))
+                .addGap(37, 37, 37))
             .addGroup(addEventPanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(eventSelectLabel)
-                .addGap(18, 18, 18)
-                .addComponent(eventsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addBookingButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(addEventPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(outMessage))
+                    .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(eventNameLabel)
                             .addComponent(dateLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(createEventButton)
-                            .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(addEventPanelLayout.createSequentialGroup()
-                                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(priceLabel)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(eventNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(addEventPanelLayout.createSequentialGroup()
+                                .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(42, 42, 42)
+                                .addComponent(priceLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(eventNameField, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(addEventPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 11, Short.MAX_VALUE))))
-            .addGroup(addEventPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(outMessage)
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         addEventPanelLayout.setVerticalGroup(
             addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(addEventPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(eventsBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eventSelectLabel)
                     .addComponent(addBookingButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(outMessage))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(outMessage)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(addEventPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(newEventLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(addEventPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(eventNameLabel)
                     .addComponent(eventNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -203,16 +206,15 @@ public class EventView extends javax.swing.JFrame  {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(BSLabel)
-                        .addGap(119, 119, 119)
-                        .addComponent(message))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(addEventPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(223, 223, 223)
+                .addComponent(BSLabel)
+                .addGap(36, 36, 36)
+                .addComponent(message)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addComponent(addEventPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,9 +223,9 @@ public class EventView extends javax.swing.JFrame  {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BSLabel)
                     .addComponent(message))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addEventPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -264,22 +266,19 @@ public class EventView extends javax.swing.JFrame  {
     private javax.swing.JTextField priceField;
     private javax.swing.JLabel priceLabel;
     // End of variables declaration//GEN-END:variables
-       private  DefaultTableModel model;
+       private DefaultTableModel model;
 
-    public void addevent(EventData data)
-    {   
-                this.model.addRow(new Object[]{data.getName(),data.getDate(),data.getPrice()});
+    public void addevent(EventData data) {
+        this.model.addRow(new Object[]{data.getName(), data.getDate(), data.getPrice()});
     }
-    
- 
-    public void setEventBox(String eventName){
-    this.eventsBox.addItem(eventName);
+
+    public void setEventBox(String eventName) {
+        this.eventsBox.addItem(eventName);
     }
-    
-    public String getSelectedEvent(){
+
+    public String getSelectedEvent() {
         return this.eventsBox.getSelectedItem().toString();
     }
-    
 
     public String getEventName() {
         return this.eventNameField.getText().trim();
@@ -293,21 +292,16 @@ public class EventView extends javax.swing.JFrame  {
         return this.priceField.getText().trim();
     }
 
-
- 
-    public void setMessage(String message)
-    {
+    public void setMessage(String message) {
         this.outMessage.setText(message);
     }
 
     public void addActionListener(ActionListener Listener) {
-        //       this.deleteBookingButton.addActionListener(Listener);
+
         this.createEventButton.addActionListener(Listener);
         this.eventsBox.addActionListener(Listener);
-        //       this.deleteEventButton.addActionListener(Listener);
         this.addBookingButton.addActionListener(Listener);
 
     }
 
-    
 }

@@ -5,6 +5,7 @@
  */
 package assessmnet2;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -33,12 +34,14 @@ public class BookingModel {
     }
 
     public boolean addBooking(String eventName, Booking bk) {
-        System.out.println("add Booking");
-
+       // System.out.println("add Booking");
+String name = eventName.replaceAll("[^a-zA-Z0-9]", "");
+name =name.replaceAll("\\s+", "");
         if (db.checkEvent(eventName)) {
-            getBookings(eventName);
+
+            getBookings(name);
             if (checkSeat(bk.seatNo)) {
-                this.db.addBooking(eventName, bk);
+                this.db.addBooking(name, bk);
                 this.message = "success";
                 return true;
             } else {
@@ -52,35 +55,46 @@ public class BookingModel {
         }
 
     }
-
+//check if selected seat is not available return false
     private boolean checkSeat(int seatNo) {
-        //if seat is not available return false
+        
         return !this.bookedSeats.contains(seatNo);
 
     }
-    
-    public void checkInput(String str)
-    {
-        this.message = "";
-    }
-
-    public String getBookings(String event) {
-        this.bookedSeats = this.db.getEventSeats(event);
-      
-        if (!this.bookedSeats.isEmpty()) {
-            System.out.println(this.bookedSeats.toString());
-            Collections.sort(bookedSeats);
-      return this.bookedSeats.toString();
-
+//checks if user input is valid
+    public boolean checkInput(String str) {
+      // str= str.replaceAll("[0-9]", "");
+        if (str.isBlank()) {
+            this.message = "Please enter customer name";
+            return false;
+        } else {
+            return true;
         }
-        else
-        {
+
+    }
+    
+ // get the unavailable seats for the selected event    
+    public String getBookings(String event) {
+    try{
+        this.bookedSeats = this.db.getEventSeats(event);
+    
+
+        if (!this.bookedSeats.isEmpty()) {
+            //  System.out.println(this.bookedSeats.toString());
+            //put the seat values in order
+            Collections.sort(bookedSeats);
+            return this.bookedSeats.toString();
+
+        } else {
             seats = "none";
         }
         return seats;
+        }
+    catch(Exception ex){
+        System.out.println("get bookings error"+ex.getMessage());
+    }
+        return null;
 
     }
-
-
 
 }

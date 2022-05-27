@@ -1,5 +1,6 @@
 package assessment2Test;
 
+import assessmnet2.EventData;
 import assessmnet2.EventModel;
 
 /*
@@ -18,9 +19,10 @@ import static org.junit.Assert.*;
  *
  * @author Sarah
  */
-public class ModelTest {
+public class EventModelTest {
 
     private EventModel model;
+    private EventData data;
 
     @Before
     public void setUp() {
@@ -29,8 +31,8 @@ public class ModelTest {
 
     @Test
     public void testMain() {
-        System.out.println("Model");
-        String[] args = null;
+        System.out.println("Event Model Test");
+       // String[] args = null;
 
     }
 
@@ -38,11 +40,41 @@ public class ModelTest {
     public void checkEventInputEmptyName() {
         System.out.println("checkEventInput");
         String name = "";
-        String date = "11/12/22";
+        String date = "2022/12/22";
         double price = 60.0;
-        EventModel instance = new EventModel();
+      
+        data = new EventData(name,date,price);
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
+        assertEquals(expResult, result);
+
+    }
+    
+    
+    @Test
+    public void checkEventInvalidCharName() {
+        System.out.println("checkEventInput");
+        String name = "!@#$%^&*(___+;'.]/*-";
+        String date = "2022/12/22";
+        double price = 60.0;
+      
+        data = new EventData(name,date,price);
+        boolean expResult = false;
+        boolean result = model.checkEventInput(data);
+        assertEquals(expResult, result);
+
+    }
+    
+      @Test
+    public void checkEventNamewithSpace() {
+        System.out.println("checkEventInput");
+        String name = "hello how are you";
+        String date = "2022/12/22";
+        double price = 60.0;
+      
+        data = new EventData(name,date,price);
+        boolean expResult = true;
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
@@ -51,11 +83,11 @@ public class ModelTest {
     public void checkEventInputNameOver50() {
         System.out.println("checkEventInput");
         String name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        String date = "11/12/22";
+        String date = "2022/12/22";
         double price = 60.0;
-        EventModel instance = new EventModel();
+        data = new EventData(name,date,price);
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
@@ -64,23 +96,25 @@ public class ModelTest {
     public void checkEventInput1CharName() {
         System.out.println("checkEventInput");
         String name = "a";
-        String date = "11/12/22";
+        String date = "2022/12/22";
         double price = 60.0;
-        EventModel instance = new EventModel();
+
+        data = new EventData(name,date,price);
         boolean expResult = true;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
     @Test
     public void checkEventInputEmptyDate() {
         System.out.println("checkEventInput");
-        String name = "test";
+        String name = "test2";
         String date = "";
         double price = 60.0;
-        EventModel instance = new EventModel();
+        data = new EventData(name,date,price);
+ 
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
@@ -88,24 +122,26 @@ public class ModelTest {
         @Test
         public void checkEventInputPastDate() {
         System.out.println("checkEventInput");
-        String name = "test";
-        String date = "01/02/12";
+        String name = "test2";
+        String date = "2022/05/12";
         double price = 60.0;
-        EventModel instance = new EventModel();
+        data = new EventData(name,date,price);
+
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
     @Test
     public void checkEventInputGoodDate() {
         System.out.println("checkEventInput");
-        String name = "test";
-        String date = "01/02/23";
+        String name = "test2";
+        String date = "2022/06/01";
         double price = 60.0;
-        EventModel instance = new EventModel();
+      data = new EventData(name,date,price);
+
         boolean expResult = true;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
@@ -113,36 +149,39 @@ public class ModelTest {
         @Test
     public void checkEventInputPriceLessThan0() {
         System.out.println("checkEventInput");
-        String name = "test";
-        String date = "01/02/23";
+        String name = "test2";
+        String date = "2022/12/23";
         double price = -10;
-        EventModel instance = new EventModel();
+        data = new EventData(name,date,price);
+
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
     @Test
         public void checkEventInputPriceis0() {
         System.out.println("checkEventInput");
-        String name = "test";
-        String date = "01/02/23";
+        String name = "test2";
+        String date = "2022/12/23";
         double price = 0;
-        EventModel instance = new EventModel();
+        data = new EventData(name,date,price);
+
         boolean expResult = false;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }
             @Test
         public void checkEventInputPriceGreaterThan0() {
         System.out.println("checkEventInput");
-        String name = "test";
-        String date = "01/02/23";
+        String name = "test2";
+        String date = "2022/12/23";
         double price = 1;
-        EventModel instance = new EventModel();
+   
+        data = new EventData(name,date,price);
         boolean expResult = true;
-        boolean result = instance.checkEventInput(name, date, price);
+        boolean result = model.checkEventInput(data);
         assertEquals(expResult, result);
 
     }

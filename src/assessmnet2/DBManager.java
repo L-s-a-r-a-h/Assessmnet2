@@ -21,8 +21,9 @@ public class DBManager {
 
     private static final String USER_NAME = "pdc";
     private static final String PASSWORD = "pdc";
-    private static final String URL = "jdbc:derby://localhost:1527/newBookingSys ;create=true";
-
+    private static final String URL = "jdbc:derby:newBkSys;create=true";
+            //jdbc:derby://localhost:1527/newBookingSys ;create=true";
+//jdbc:derby:bkSys;create=true
     /*  public DBManager(){
         dbSetup();
     }*/
@@ -32,13 +33,6 @@ public class DBManager {
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 System.out.println("connected to " + URL);
 
-         /*        Statement statement = conn.createStatement();
-            String tableName = "EventInfo";
-        
-                System.out.println("Creating table...");
-                statement.executeUpdate("CREATE TABLE " + tableName + "eventName VARCHAR(20), eventDate DATE(20),price FLOAT");
-
-           */
             } catch (SQLException ex) {
 
                 System.out.println(ex.getMessage());
@@ -61,18 +55,4 @@ public class DBManager {
         }
     }
 
-    public void updateDB(String sql) {
-
-        Connection connection = this.conn;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(sql);
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
 }
